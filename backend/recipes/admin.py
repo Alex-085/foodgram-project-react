@@ -48,8 +48,6 @@ class IngredientInRecipe(admin.ModelAdmin):
     list_display = ('recipe', 'ingredient', 'amount',)
 
 
-
-
 @admin.register(User)
 class UserAdmin(UserAdmin):
     list_display = (

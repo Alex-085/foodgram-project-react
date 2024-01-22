@@ -7,17 +7,6 @@ from django.db import models
 from django.db.models import UniqueConstraint
 
 
-USER = 'user'
-ADMIN = 'admin'
-MODERATOR = 'moderator'
-
-ROLE_CHOICES = [
-    (USER, USER),
-    (ADMIN, ADMIN),
-    (MODERATOR, MODERATOR),
-]
-
-
 class MyUser(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [
@@ -60,7 +49,8 @@ class Subscribe(models.Model):
     class Meta:
         ordering = ['-id']
         constraints = [
-            UniqueConstraint(fields=['user', 'author'], name='unique_subscription')
+            UniqueConstraint(fields=['user', 'author'],
+                             name='unique_subscription')
         ]
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
@@ -87,6 +77,10 @@ class Tag(models.Model):
         unique=True,
         max_length=200,
     )
+
+    class Meta:
+        verbose_name = 'Тэг'
+        verbose_name_plural = 'Тэги'
 
     def __str__(self):
         return f'{self.name} {self.name}'
@@ -145,9 +139,9 @@ class Recipe(models.Model):
     )
 
     class Meta:
-        ordering = ['-id']
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
+        ordering = ['-id']
 
     def __str__(self):
         return self.name
@@ -176,7 +170,7 @@ class IngredientInRecipe(models.Model):
 
     def __str__(self):
         return (
-            f'{self.ingredient.name} ({self.ingredient.measurement_unit}) - {self.amount} '
+            f'{self.ingredient.name} ({self.ingredient.unit_of_measurement}) - {self.amount} '
         )
 
 
@@ -200,7 +194,9 @@ class Favourite(models.Model):
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранное'
         constraints = [
-            UniqueConstraint(fields=['user', 'recipe'], name='unique_favourite')
+            UniqueConstraint(
+                fields=['user', 'recipe'], name='unique_favourite'
+            )
         ]
 
     def __str__(self):
@@ -227,7 +223,9 @@ class ShoppingCart(models.Model):
         verbose_name = 'Корзина покупок'
         verbose_name_plural = 'Корзина покупок'
         constraints = [
-            UniqueConstraint(fields=['user', 'recipe'], name='unique_shopping_cart')
+            UniqueConstraint(
+                fields=['user', 'recipe'], name='unique_shopping_cart'
+            )
         ]
 
     def __str__(self):
