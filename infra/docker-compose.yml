@@ -20,7 +20,7 @@ services:
       - ./.env
     volumes:
       - static:/backend_static
-      - media:/media/
+      - media:/recipes/
     depends_on:
       - db
   frontend:

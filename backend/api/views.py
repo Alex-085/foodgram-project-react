@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
@@ -44,7 +45,8 @@ class TagViewSet(ReadOnlyModelViewSet):
 class RecipeViewSet(ModelViewSet):
     queryset = Recipe.objects.all()
     permission_classes = (IsAuthorOrReadOnly | IsAdminOrReadOnly,)
-    pagination_class = CustomPagination
+    # pagination_class = CustomPagination
+    pagination_class = PageNumberPagination
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipeFilter
 
@@ -108,7 +110,7 @@ class RecipeViewSet(ModelViewSet):
             recipe__shopping_cart__user=request.user
         ).values(
             'ingredient__name',
-            'ingredient__measurement_unit'
+            'ingredient__unit_of_measurement'
         ).annotate(amount=Sum('amount'))
 
         today = datetime.today()
@@ -118,7 +120,7 @@ class RecipeViewSet(ModelViewSet):
         )
         shopping_list += '\n'.join([
             f'- {ingredient["ingredient__name"]} '
-            f'({ingredient["ingredient__measurement_unit"]})'
+            f'({ingredient["ingredient__unit_of_measurement"]})'
             f' - {ingredient["amount"]}'
             for ingredient in ingredients
         ])
