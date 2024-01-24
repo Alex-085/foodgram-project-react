@@ -10,7 +10,12 @@ from rest_framework.fields import IntegerField, SerializerMethodField
 from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer
 
-from recipes.models import Subscribe, Ingredient, IngredientInRecipe, Recipe, Tag, User
+from recipes.models import (Subscribe,
+                            Ingredient,
+                            IngredientInRecipe,
+                            Recipe,
+                            Tag,
+                            User)
 
 
 class CustomUserCreateSerializer(UserCreateSerializer):

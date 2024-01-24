@@ -20,14 +20,14 @@ services:
       - ./.env
     volumes:
       - static:/backend_static
-      - media:/recipes/
+      - media:/media/
     depends_on:
       - db
   frontend:
     build:
       context: ../frontend
       dockerfile: Dockerfile
-    command: cp -r /app/build/. /static/
+    command: cp -r /app/build/. /frontend_static/
     volumes:
       - ../frontend/:/app/result_build/
       - static:/frontend_static
