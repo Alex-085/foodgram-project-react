@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import (MaxValueValidator,
-                                    MinValueValidator,
+from django.core.validators import (MinValueValidator,
                                     RegexValidator)
 from django.db import models
 from django.db.models import UniqueConstraint
@@ -170,7 +169,9 @@ class IngredientInRecipe(models.Model):
 
     def __str__(self):
         return (
-            f'{self.ingredient.name} ({self.ingredient.unit_of_measurement}) - {self.amount} '
+            f'''{self.ingredient.name} 
+                ({self.ingredient.unit_of_measurement})
+                - {self.amount} '''
         )
 
 

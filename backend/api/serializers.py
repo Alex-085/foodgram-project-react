@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.db import transaction
 from django.db.models import F
 from django.shortcuts import get_object_or_404
@@ -9,7 +8,6 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.fields import IntegerField, SerializerMethodField
 from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer
-
 from recipes.models import (Subscribe,
                             Ingredient,
                             IngredientInRecipe,
@@ -199,7 +197,9 @@ class RecipeWriteSerializer(ModelSerializer):
         tags_list = []
         for tag in tags:
             if tag in tags_list:
-                raise ValidationError({'tags': 'Теги должны быть уникальными!'})
+                raise ValidationError(
+                    {'tags': 'Теги должны быть уникальными!'}
+                )
             tags_list.append(tag)
         return value
 
@@ -230,7 +230,8 @@ class RecipeWriteSerializer(ModelSerializer):
         instance.tags.clear()
         instance.tags.set(tags)
         instance.ingredients.clear()
-        self.create_ingredients_amounts(recipe=instance, ingredients=ingredients)
+        self.create_ingredients_amounts(recipe=instance,
+                                        ingredients=ingredients)
         instance.save()
         return instance
 
