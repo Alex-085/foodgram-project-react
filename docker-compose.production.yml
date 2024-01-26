@@ -18,6 +18,8 @@ services:
     volumes:
       - static_volume:/backend_static
       - media:/media/
+    depends_on:
+      - db
   frontend:
     image: alex0942/foodgram-project-react_frontend
     env_file: .env
@@ -25,6 +27,8 @@ services:
     volumes:
       - ./frontend/:/app/result_build/
       - static_volume:/frontend_static
+    depends_on:
+      - backend
   nginx:
     #image: alex0942/foodgram-project-react_nginx
     image: nginx:1.19.3
@@ -38,3 +42,5 @@ services:
       - media:/media/
     ports:
       - 8000:80
+    depends_on:
+      - frontend

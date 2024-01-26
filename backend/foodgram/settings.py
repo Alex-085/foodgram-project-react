@@ -10,6 +10,7 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = os.getenv(
     'ALLOWED_HOSTS', '127.0.0.1, localhost, fedor-aaappp.ddns.net'
 ).split(',')
+
 # ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
