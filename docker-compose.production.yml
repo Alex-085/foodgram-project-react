@@ -28,8 +28,8 @@ services:
       - ./frontend/:/app/result_build/
       - static_volume:/frontend_static
   nginx:
-    image: alex0942/foodgram-project-react_nginx
-    #image: nginx:1.19.3
+    #image: alex0942/foodgram-project-react_nginx
+    image: nginx:1.19.3
     env_file: .env
     restart: always
     volumes:
