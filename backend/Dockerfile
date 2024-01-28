@@ -6,4 +6,5 @@ RUN pip install -r requirements.txt --no-cache-dir
 COPY . .
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "foodgram.wsgi"]
 COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/app/entrypoint.sh"]
+RUN chmod u+x /entrypoint.sh
+#ENTRYPOINT ["/app/entrypoint.sh"]

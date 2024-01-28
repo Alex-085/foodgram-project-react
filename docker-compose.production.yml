@@ -20,6 +20,7 @@ services:
       - media:/media/
     depends_on:
       - db
+    entrypoint: /entrypoint.sh
   frontend:
     image: alex0942/foodgram-project-react_frontend
     env_file: .env
