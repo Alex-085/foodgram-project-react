@@ -20,7 +20,7 @@ from recipes.models import (Favourite,
                             ShoppingCart,
                             Tag)
 from .filters import IngredientFilter, RecipeFilter
-# from .pagination import CustomPagination
+from .pagination import CustomPagination
 from .permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
 from .serializers import (IngredientSerializer,
                           RecipeReadSerializer,
@@ -46,8 +46,8 @@ class TagViewSet(ReadOnlyModelViewSet):
 class RecipeViewSet(ModelViewSet):
     queryset = Recipe.objects.all()
     permission_classes = (IsAuthorOrReadOnly | IsAdminOrReadOnly,)
-    # pagination_class = CustomPagination
-    pagination_class = PageNumberPagination
+    pagination_class = CustomPagination
+    # pagination_class = PageNumberPagination
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipeFilter
 
