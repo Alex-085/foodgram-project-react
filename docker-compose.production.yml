@@ -26,7 +26,7 @@ services:
     command: cp -r /app/build/. /frontend_static/
     volumes:
       - ./frontend/:/app/result_build/
-      - static_volume:/frontend_static
+    #  - static_volume:/frontend_static
   nginx:
     #image: alex0942/foodgram-project-react_nginx
     image: nginx:1.22.1
