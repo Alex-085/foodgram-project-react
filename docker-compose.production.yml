@@ -22,7 +22,7 @@ services:
       - db
   frontend:
     image: alex0942/foodgram-project-react_frontend
-    env_file: .env
+    # env_file: .env
     command: cp -r /app/build/. /frontend_static/
     volumes:
       - ./frontend/:/app/result_build/
@@ -31,14 +31,17 @@ services:
     #image: alex0942/foodgram-project-react_nginx
     image: nginx:1.22.1
     env_file: .env
-    restart: always
+    # restart: always
     volumes:
-      # - ./infra/nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./infra/nginx.conf:/etc/nginx/templates/default.conf.template
-      - ./frontend/build/:/staticfiles/
+      - ./infra/nginx.conf:/etc/nginx/conf.d/default.conf
+      # - ./infra/nginx.conf:/etc/nginx/templates/default.conf.template
+      # - ./frontend/build/:/staticfiles/
+      - ./frontend/build:/usr/share/nginx/html/
       - ./docs/:/usr/share/nginx/html/api/docs/
       - static_volume:/staticfiles/
       - media:/media/
     ports:
       - 8000:80
-    
+    depends_on:
+      - backend
+      - frontend
