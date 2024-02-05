@@ -12,6 +12,7 @@ from rest_framework.fields import (IntegerField,
                                    SerializerMethodField)
 from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer, ImageField
+from rest_framework.serializers import SerializerMethodField as SMF
 from recipes.models import (Subscribe,
                             Ingredient,
                             IngredientInRecipe,
@@ -117,7 +118,7 @@ class RecipeReadSerializer(ModelSerializer):
     author = CustomUserSerializer(read_only=True)
     ingredients = SerializerMethodField()
     image = Base64ImageField()
-    image_url = SerializerMethodField(
+    image_url = SMF(
         'get_image_url',
         read_only=True,
     )
