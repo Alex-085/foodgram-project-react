@@ -117,7 +117,7 @@ class RecipeReadSerializer(ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
     author = CustomUserSerializer(read_only=True)
     ingredients = SerializerMethodField()
-    image = SMF('get_image_url', read_only=True)
+    image = SMF('get_image_url')
     # image_url = SMF('get_image_url', read_only=True)
     is_favorited = SerializerMethodField(read_only=True)
     is_in_shopping_cart = SerializerMethodField(read_only=True)
@@ -142,8 +142,6 @@ class RecipeReadSerializer(ModelSerializer):
         if obj.image:
             return obj.image.url
         return None
-        # request = self.context.get("request")
-        # return request.build_absolute_uri(obj.image.url)
 
     def get_ingredients(self, obj):
         recipe = obj
