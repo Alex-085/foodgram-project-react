@@ -118,10 +118,7 @@ class RecipeReadSerializer(ModelSerializer):
     author = CustomUserSerializer(read_only=True)
     ingredients = SerializerMethodField()
     image = Base64ImageField()
-    image_url = SMF(
-        'get_image_url',
-        read_only=True,
-    )
+    image_url = SMF('get_image_url', read_only=True)
     is_favorited = SerializerMethodField(read_only=True)
     is_in_shopping_cart = SerializerMethodField(read_only=True)
 
@@ -136,13 +133,14 @@ class RecipeReadSerializer(ModelSerializer):
             'is_in_shopping_cart',
             'name',
             'image',
+            'image_url',
             'text',
             'cooking_time',
         )
 
     def get_image_url(self, obj):
         if obj.image:
-            return obj.image_url
+            return obj.image.url
         return None
 
     def get_ingredients(self, obj):
