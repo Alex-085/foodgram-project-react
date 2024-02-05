@@ -37,7 +37,7 @@ services:
       - ./frontend/build/:/staticfiles/
       - ./docs/:/usr/share/nginx/html/api/docs/
       - static_volume:/staticfiles/
-      - media:/media/recipes/
+      - media:/media/
     ports:
       - 8000:80
     depends_on:
