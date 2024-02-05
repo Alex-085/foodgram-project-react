@@ -1,15 +1,17 @@
+import base64
+from django.core.files.base import ContentFile
 from django.db import transaction
 from django.db.models import F
 from django.shortcuts import get_object_or_404
 from djoser.serializers import (UserCreateSerializer,
                                 UserSerializer)
-from drf_extra_fields.fields import Base64ImageField
+# from drf_extra_fields.fields import Base64ImageField
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.fields import (IntegerField,
                                    SerializerMethodField)
 from rest_framework.relations import PrimaryKeyRelatedField
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, ImageField
 from recipes.models import (Subscribe,
                             Ingredient,
                             IngredientInRecipe,
@@ -97,6 +99,17 @@ class TagSerializer(ModelSerializer):
     class Meta:
         model = Tag
         fields = '__all__'
+
+
+class Base64ImageField(ImageField):
+    def to_internal_value(self, data):
+        if isinstance(data, str) and data.startswith('data:image'):
+            format, imgstr = data.split(';base64,')
+            ext = format.split('/')[-1]
+
+            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+
+        return super().to_internal_value(data)
 
 
 class RecipeReadSerializer(ModelSerializer):
