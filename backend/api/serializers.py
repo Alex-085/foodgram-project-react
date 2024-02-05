@@ -139,9 +139,9 @@ class RecipeReadSerializer(ModelSerializer):
         )
 
     def get_image_url(self, obj):
-        #if obj.image:
+        # if obj.image:
         #    return obj.image.url
-        #return None
+        # return None
         request = self.context.get("request")
         return request.build_absolute_uri(obj.image.url)
 
