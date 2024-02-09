@@ -32,7 +32,6 @@ from .serializers import (IngredientSerializer,
                           CustomUserSerializer,
                           SubscribeSerializer)
 
-
 User = get_user_model()
 
 
