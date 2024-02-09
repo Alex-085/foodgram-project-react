@@ -25,24 +25,24 @@ class RecipeAdmin(admin.ModelAdmin):
         return obj.favorites.count()
 
 
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('name', 'color', 'slug',)
+
+
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name', 'unit_of_measurement',)
     list_filter = ('name',)
 
 
-@admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
-    list_display = ('name', 'color', 'slug',)
+@admin.register(Favourite)
+class FavouriteAdmin(admin.ModelAdmin):
+    list_display = ('user', 'recipe',)
 
 
 @admin.register(ShoppingCart)
 class ShoppingCartAdmin(admin.ModelAdmin):
-    list_display = ('user', 'recipe',)
-
-
-@admin.register(Favourite)
-class FavouriteAdmin(admin.ModelAdmin):
     list_display = ('user', 'recipe',)
 
 

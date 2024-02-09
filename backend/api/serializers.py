@@ -20,15 +20,6 @@ from recipes.models import (Subscribe,
                             User)
 
 
-class CustomUserCreateSerializer(UserCreateSerializer):
-    class Meta:
-        model = User
-        fields = tuple(User.REQUIRED_FIELDS) + (
-            User.USERNAME_FIELD,
-            'password',
-        )
-
-
 class CustomUserSerializer(UserSerializer):
     is_subscribed = SerializerMethodField(read_only=True)
 
@@ -50,6 +41,15 @@ class CustomUserSerializer(UserSerializer):
         return Subscribe.objects.filter(user=user, author=obj).exists()
 
 
+class CustomUserCreateSerializer(UserCreateSerializer):
+    class Meta:
+        model = User
+        fields = tuple(User.REQUIRED_FIELDS) + (
+            User.USERNAME_FIELD,
+            'password',
+        )
+
+
 class SubscribeSerializer(CustomUserSerializer):
     recipes_count = SerializerMethodField()
     recipes = SerializerMethodField()
@@ -65,12 +65,12 @@ class SubscribeSerializer(CustomUserSerializer):
         user = self.context.get('request').user
         if Subscribe.objects.filter(author=author, user=user).exists():
             raise ValidationError(
-                detail='Вы уже подписаны на этого пользователя!',
+                detail='Вы уже подписаны на этого пользователя!!!',
                 code=status.HTTP_400_BAD_REQUEST
             )
         if user == author:
             raise ValidationError(
-                detail='Вы не можете подписаться на самого себя!',
+                detail='Вы не можете подписаться на себя!!!',
                 code=status.HTTP_400_BAD_REQUEST
             )
         return data
@@ -89,15 +89,15 @@ class SubscribeSerializer(CustomUserSerializer):
         return serializer.data
 
 
-class IngredientSerializer(ModelSerializer):
-    class Meta:
-        model = Ingredient
-        fields = '__all__'
-
-
 class TagSerializer(ModelSerializer):
     class Meta:
         model = Tag
+        fields = '__all__'
+
+
+class IngredientSerializer(ModelSerializer):
+    class Meta:
+        model = Ingredient
         fields = '__all__'
 
 
@@ -117,24 +117,12 @@ class RecipeReadSerializer(ModelSerializer):
     author = CustomUserSerializer(read_only=True)
     ingredients = SerializerMethodField()
     image = SMF('get_image_url')
-    # image_url = SMF('get_image_url', read_only=True)
     is_favorited = SerializerMethodField(read_only=True)
     is_in_shopping_cart = SerializerMethodField(read_only=True)
 
     class Meta:
         model = Recipe
-        fields = (
-            'id',
-            'tags',
-            'author',
-            'ingredients',
-            'is_favorited',
-            'is_in_shopping_cart',
-            'name',
-            'image',
-            'text',
-            'cooking_time',
-        )
+        fields = '__all__'
 
     def get_image_url(self, obj):
         if obj.image:
@@ -181,16 +169,7 @@ class RecipeWriteSerializer(ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = (
-            'id',
-            'tags',
-            'author',
-            'ingredients',
-            'name',
-            'image',
-            'text',
-            'cooking_time',
-        )
+        fields = '__all__'
 
     def validate_ingredients(self, value):
         ingredients = value
